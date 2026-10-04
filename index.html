@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff3bd">
+  <title>Bible Help — A moment of comfort</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #26372f;
+      --muted: #67736b;
+      --green: #315c48;
+      --green-dark: #244735;
+      --paper: #fffefa;
+      --background: #fff3bd;
+      --line: #e7e4da;
+      --gold: #c08d46;
+      --soft-green: #edf3ed;
+      --shadow: 0 22px 65px rgba(48, 60, 47, .09);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 28px 18px 38px;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 50% -15%, rgba(255, 248, 215, .85), transparent 48%),
+        var(--background);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    button, textarea { font: inherit; }
+
+    .page {
+      width: min(100%, 700px);
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 4px 0 36px;
+      color: var(--green);
+      font-family: system-ui, sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border: 1px solid #d5dfd3;
+      border-radius: 50%;
+      background: rgba(255, 254, 250, .78);
+      font-size: 1rem;
+    }
+
+    main {
+      padding: clamp(24px, 6vw, 54px);
+      border: 1px solid rgba(226, 224, 215, .9);
+      border-radius: 24px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--gold);
+      font-family: system-ui, sans-serif;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.1rem, 7vw, 3.35rem);
+      font-weight: 400;
+      letter-spacing: -.045em;
+      line-height: 1.12;
+      text-align: center;
+    }
+
+    .intro {
+      max-width: 460px;
+      margin: 17px auto 31px;
+      color: var(--muted);
+      font-family: system-ui, sans-serif;
+      font-size: .98rem;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 9px;
+      font-family: system-ui, sans-serif;
+      font-size: .9rem;
+      font-weight: 650;
+    }
+
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 132px;
+      resize: vertical;
+      padding: 16px 17px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      outline: none;
+      background: #fff;
+      color: var(--ink);
+      font-family: system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      transition: border-color .18s, box-shadow .18s;
+    }
+
+    textarea::placeholder { color: #92988f; }
+
+    textarea:focus {
+      border-color: #71927b;
+      box-shadow: 0 0 0 3px rgba(81, 125, 94, .13);
+    }
+
+    .form-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 15px;
+    }
+
+    .privacy {
+      margin: 0;
+      color: var(--muted);
+      font-family: system-ui, sans-serif;
+      font-size: .78rem;
+      line-height: 1.5;
+    }
+
+    button {
+      min-height: 48px;
+      padding: 0 21px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--green);
+      color: #fff;
+      cursor: pointer;
+      font-family: system-ui, sans-serif;
+      font-size: .92rem;
+      font-weight: 650;
+      transition: background .18s, transform .18s;
+    }
+
+    button:hover { background: var(--green-dark); }
+    button:active { transform: translateY(1px); }
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid #c08d46;
+      outline-offset: 3px;
+    }
+
+    .response {
+      margin-top: 26px;
+      padding: 24px;
+      border: 1px solid #e2eadd;
+      border-radius: 15px;
+      background: var(--soft-green);
+    }
+
+    .response[hidden] { display: none; }
+
+    .response-label {
+      margin: 0 0 12px;
+      color: var(--green);
+      font-family: system-ui, sans-serif;
+      font-size: .74rem;
+      font-weight: 750;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .response-message {
+      margin: 0;
+      font-size: 1.17rem;
+      line-height: 1.7;
+      white-space: pre-line;
+    }
+
+    .verse {
+      margin: 17px 0 0;
+      padding-top: 15px;
+      border-top: 1px solid #d9e3d5;
+      color: #47574a;
+      font-size: 1rem;
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .verse cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--green);
+      font-family: system-ui, sans-serif;
+      font-size: .83rem;
+      font-style: normal;
+      font-weight: 650;
+    }
+
+    .response.safety {
+      border-color: #eddbca;
+      background: #fff7ef;
+    }
+
+    .response.safety .response-label { color: #8a4b2b; }
+    .response.safety .verse { border-color: #efdfd1; }
+    .response.safety .verse cite { color: #8a4b2b; }
+
+    .safety-note {
+      margin: 17px 0 0;
+      padding-top: 15px;
+      border-top: 1px solid #efdfd1;
+      color: #533f32;
+      font-family: system-ui, sans-serif;
+      font-size: .9rem;
+      line-height: 1.7;
+    }
+
+    .safety-note a {
+      color: #75401f;
+      font-weight: 650;
+      text-underline-offset: 3px;
+    }
+
+    .suggestions {
+      margin-top: 28px;
+      text-align: center;
+    }
+
+    .suggestions p {
+      margin: 0 0 11px;
+      color: var(--muted);
+      font-family: system-ui, sans-serif;
+      font-size: .8rem;
+    }
+
+    .suggestion-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .suggestion {
+      min-height: 36px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      color: #536258;
+      font-size: .82rem;
+      font-weight: 500;
+    }
+
+    .suggestion:hover {
+      border-color: #b8c9b7;
+      background: #f3f6f0;
+      color: var(--green-dark);
+    }
+
+    .footnote {
+      max-width: 520px;
+      margin: 24px auto 0;
+      color: var(--muted);
+      font-family: system-ui, sans-serif;
+      font-size: .76rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    @media (max-width: 520px) {
+      body { padding: 18px 12px 28px; }
+      .brand { margin-bottom: 22px; }
+      main { border-radius: 18px; }
+      .form-footer { align-items: stretch; flex-direction: column; }
+      .form-footer button { width: 100%; }
+      .privacy { text-align: center; }
+      .response { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="brand">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      <span>Bible Help</span>
+    </header>
+
+    <main>
+      <p class="eyebrow">A quiet place to turn</p>
+      <h1>You don't have to carry it alone.</h1>
+      <p class="intro">Tell us what is on your heart. Find a gentle word of encouragement and a Bible verse for this moment.</p>
+
+      <form id="comfort-form">
+        <label for="feeling">What are you going through?</label>
+        <textarea id="feeling" name="feeling" maxlength="1000" placeholder="For example: God, I am tired and don't know what to do..." required></textarea>
+        <div class="form-footer">
+          <p class="privacy">Your words stay in this browser. Select “Show response now” when you are ready.</p>
+          <button type="submit">Show response now <span aria-hidden="true">→</span></button>
+        </div>
+      </form>
+
+      <section id="response" class="response" aria-live="polite" aria-atomic="true" hidden>
+        <p id="response-label" class="response-label">A word for your heart</p>
+        <p id="response-message" class="response-message"></p>
+        <blockquote class="verse">
+          <span id="verse-text"></span>
+          <cite id="verse-reference"></cite>
+        </blockquote>
+        <p id="safety-note" class="safety-note" hidden></p>
+      </section>
+
+      <div class="suggestions">
+        <p>Not sure what to write? Start with one of these:</p>
+        <div class="suggestion-list">
+          <button class="suggestion" type="button" data-prompt="I feel anxious and afraid.">I feel anxious</button>
+          <button class="suggestion" type="button" data-prompt="I feel lonely and forgotten.">I feel lonely</button>
+          <button class="suggestion" type="button" data-prompt="I am tired and overwhelmed.">I feel tired</button>
+          <button class="suggestion" type="button" data-prompt="I need hope and strength today.">I need hope</button>
+        </div>
+      </div>
+    </main>
+
+    <p class="footnote">These Bible-based words are here to encourage you, not to replace care from someone you trust or a qualified professional.</p>
+  </div>
+
+  <script>
+    const encouragements = [
+      {
+        match: /\b(anxious|anxiety|worry|worried|panic|afraid|fear|scared)\b/i,
+        message: "Take this moment one breath at a time. You do not have to solve everything right now. God welcomes your worries, and you can ask someone you trust to sit with you, too.",
+        verse: "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.",
+        reference: "Philippians 4:6 (KJV)"
+      },
+      {
+        match: /\b(lonely|alone|forgotten|abandoned|isolated)\b/i,
+        message: "Feeling alone can hurt deeply, but you are worthy of care and connection. Reach out to someone kind, even with a simple message. You do not have to face this moment by yourself.",
+        verse: "I will not leave you comfortless: I will come to you.",
+        reference: "John 14:18 (KJV)"
+      },
+      {
+        match: /\b(tired|exhausted|weak|overwhelm(?:ed)?|weary|burnt? ?out)\b/i,
+        message: "You do not have to be strong every minute. Rest, take one small step, and let someone you trust help carry what feels too heavy. Your life matters, even when today feels hard.",
+        verse: "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee.",
+        reference: "Isaiah 41:10 (KJV)"
+      },
+      {
+        match: /\b(sad|sadness|heartbroken|depressed|grieving|grief|mourning|loss|lost someone)\b/i,
+        message: "You are allowed to grieve and to take your time. You deserve gentleness and support while you hurt; consider telling someone you trust what today has been like.",
+        verse: "The LORD is nigh unto them that are of a broken heart; and saveth such as be of a contrite spirit.",
+        reference: "Psalm 34:18 (KJV)"
+      },
+      {
+        match: /\b(hope|hopeless|give up|discouraged|failure|failed)\b/i,
+        message: "This difficult moment is not the whole story of your life. You deserve support, and you do not need to figure everything out at once. Is there someone safe you can talk to today?",
+        verse: "Why art thou cast down, O my soul? and why art thou disquieted within me? hope thou in God.",
+        reference: "Psalm 42:11 (KJV)"
+      },
+      {
+        match: /\b(guidance|direction|decision|confused|what to do|which way)\b/i,
+        message: "It is okay not to have every answer yet. Pause, ask for wisdom, and consider talking it through with someone you trust. One thoughtful next step is enough for now.",
+        verse: "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.",
+        reference: "James 1:5 (KJV)"
+      },
+      {
+        match: /\b(work|job|career|boss|coworker|fired|unemployed|interview|workplace)\b/i,
+        message: "Work can bring real pressure, but your worth is more than what you accomplish or what others think of you. Take the next step you can, and let someone you trust encourage you along the way.",
+        verse: "Come unto me, all ye that labour and are heavy laden, and I will give you rest.",
+        reference: "Matthew 11:28 (KJV)"
+      },
+      {
+        match: /\b(money|financial|debt|bills|rent|broke|poverty|afford|expenses)\b/i,
+        message: "Money worries can feel overwhelming. You do not have to solve everything at once; consider choosing one small practical step and asking someone trustworthy for support.",
+        verse: "But my God shall supply all your need according to his riches in glory by Christ Jesus.",
+        reference: "Philippians 4:19 (KJV)"
+      },
+      {
+        match: /\b(ill|illness|sick|health|diagnosis|hospital|surgery|chronic|pain)\b/i,
+        message: "Facing health concerns can be frightening and tiring. You deserve care and support; if you can, share what you are carrying with someone you trust and lean on your care team.",
+        verse: "God is our refuge and strength, a very present help in trouble.",
+        reference: "Psalm 46:1 (KJV)"
+      },
+      {
+        match: /\b(relationship|breakup|partner|marriage|divorce|boyfriend|girlfriend|friendship|argument)\b/i,
+        message: "Relationships can bring deep hurt and uncertainty. Give yourself time to feel what you feel, and consider talking with someone kind who can listen without judging.",
+        verse: "A friend loveth at all times, and a brother is born for adversity.",
+        reference: "Proverbs 17:17 (KJV)"
+      },
+      {
+        match: /\b(family|mother|father|mom|dad|parent|child|son|daughter|sibling)\b/i,
+        message: "Family struggles can weigh heavily on your heart. You do not have to carry them alone; seek support from someone you trust and take things one conversation or one step at a time.",
+        verse: "Bear ye one another's burdens, and so fulfil the law of Christ.",
+        reference: "Galatians 6:2 (KJV)"
+      },
+      {
+        match: /\b(stress|stressed|pressure|busy|deadline|school|study|exam|college|university)\b/i,
+        message: "When pressure builds, it can help to pause and focus on just the next manageable step. Rest matters too, and you deserve support while you work through this.",
+        verse: "There remaineth therefore a rest to the people of God.",
+        reference: "Hebrews 4:9 (KJV)"
+      },
+      {
+        match: /\b(guilt|ashamed|shame|forgive|forgiveness|mistake|regret)\b/i,
+        message: "A mistake does not take away your worth. You can seek forgiveness, make amends where possible, and allow yourself room to grow. You are deserving of compassion as you take the next step.",
+        verse: "There is therefore now no condemnation to them which are in Christ Jesus.",
+        reference: "Romans 8:1 (KJV)"
+      },
+      {
+        match: /\b(angry|anger|frustrated|upset|betrayed)\b/i,
+        message: "Your feelings matter. Give yourself a moment to breathe before deciding what to do, and speak with someone you trust if that would help you feel less alone.",
+        verse: "Be ye angry, and sin not: let not the sun go down upon your wrath.",
+        reference: "Ephesians 4:26 (KJV)"
+      },
+      {
+        match: /\b(thankful|grateful|blessed|joy|happy|good day)\b/i,
+        message: "It is beautiful to notice moments of goodness. May gratitude give your heart a little room to rest and help you share kindness with someone around you.",
+        verse: "O give thanks unto the LORD; for he is good: for his mercy endureth for ever.",
+        reference: "Psalm 107:1 (KJV)"
+      }
+    ];
+
+    const safetyPattern = /\b(suicid(?:e|al)|kill myself|killing myself|end my life|end it all|don't want to live|do not want to live|wish i were dead|better off dead|hurt myself|harm myself|self[- ]harm|tired of life|not worth living)\b/i;
+    const safetyResponse = {
+      message: "I am so sorry things feel this painful. I am glad you shared this. You deserve support right now, and you do not have to handle this moment alone. Please tell someone you trust how you are feeling and stay with them.",
+      verse: "The LORD is nigh unto them that are of a broken heart; and saveth such as be of a contrite spirit.",
+      reference: "Psalm 34:18 (KJV)"
+    };
+    const defaultResponses = [
+      {
+        message: "Whatever you are facing, you deserve kindness and support. Take one small step at a time, and consider sharing what is on your heart with someone you trust.",
+        verse: "Cast thy burden upon the LORD, and he shall sustain thee: he shall never suffer the righteous to be moved.",
+        reference: "Psalm 55:22 (KJV)"
+      },
+      {
+        message: "You do not have to figure everything out right now. Give yourself room to breathe, and reach out to someone you trust if you need a listening ear.",
+        verse: "The LORD is good, a strong hold in the day of trouble; and he knoweth them that trust in him.",
+        reference: "Nahum 1:7 (KJV)"
+      },
+      {
+        message: "Your feelings matter, and you deserve patience as you work through them. Try taking one gentle next step and letting a trusted person know how things have been for you.",
+        verse: "I can do all things through Christ which strengtheneth me.",
+        reference: "Philippians 4:13 (KJV)"
+      },
+      {
+        message: "This moment does not have to be solved all at once. You are worthy of care; take a little time, and consider asking someone safe to be with you in this.",
+        verse: "When thou passest through the waters, I will be with thee.",
+        reference: "Isaiah 43:2 (KJV)"
+      }
+    ];
+
+    const form = document.getElementById("comfort-form");
+    const feeling = document.getElementById("feeling");
+    const response = document.getElementById("response");
+    const responseLabel = document.getElementById("response-label");
+    const responseMessage = document.getElementById("response-message");
+    const verseText = document.getElementById("verse-text");
+    const verseReference = document.getElementById("verse-reference");
+    const safetyNote = document.getElementById("safety-note");
+
+    function showResponse(text) {
+      const isSafetyConcern = safetyPattern.test(text);
+      const matchedEncouragement = encouragements.find((item) => item.match.test(text));
+      const textHash = Array.from(text.toLowerCase()).reduce(
+        (hash, character) => (hash * 31 + character.charCodeAt(0)) >>> 0,
+        0
+      );
+      const result = isSafetyConcern
+        ? safetyResponse
+        : matchedEncouragement || defaultResponses[textHash % defaultResponses.length];
+
+      response.classList.toggle("safety", isSafetyConcern);
+      responseLabel.textContent = isSafetyConcern ? "You deserve support right now" : "A word for your heart";
+      responseMessage.textContent = result.message;
+      verseText.textContent = result.verse;
+      verseReference.textContent = result.reference;
+      safetyNote.hidden = !isSafetyConcern;
+      safetyNote.replaceChildren();
+
+      if (isSafetyConcern) {
+        safetyNote.append(
+          "If you might hurt yourself or are in immediate danger, call your local emergency number now or go to an emergency department. In the U.S. or Canada, call or text 988. Elsewhere, visit "
+        );
+        const helpline = document.createElement("a");
+        helpline.href = "https://findahelpline.com/";
+        helpline.target = "_blank";
+        helpline.rel = "noopener noreferrer";
+        helpline.textContent = "Find A Helpline";
+        safetyNote.append(helpline, " to find a crisis line in your country.");
+      }
+
+      response.hidden = false;
+      response.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const text = feeling.value.trim();
+      if (!text) {
+        feeling.focus();
+        return;
+      }
+      showResponse(text);
+    });
+
+    feeling.addEventListener("input", () => {
+      response.hidden = true;
+    });
+
+    document.querySelectorAll("[data-prompt]").forEach((button) => {
+      button.addEventListener("click", () => {
+        feeling.value = button.dataset.prompt;
+        form.requestSubmit();
+      });
+    });
+  </script>
+</body>
+</html>
